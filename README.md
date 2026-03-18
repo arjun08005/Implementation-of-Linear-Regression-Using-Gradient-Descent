@@ -8,23 +8,104 @@ To write a program to predict the profit of a city using the linear regression m
 2. Anaconda – Python 3.7 Installation / Jupyter notebook
 
 ## Algorithm
-1. 
-2. 
-3. 
-4. 
-
+1. Start
+2. Initialize data, parameters, and learning rate
+3. Repeat for given iterations: • Predict output • Compute loss • Update weight and bias
+4. Plot results and display parameters
+5. Stop
 ## Program:
 ```
 /*
 Program to implement the linear regression using gradient descent.
-Developed by: 
-RegisterNumber:  
+Developed by: ARJUN M S
+RegisterNumber:  212222080007
 */
 ```
+```
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
 
+# -----------------------
+# Load dataset
+# -----------------------
+data = pd.read_csv("ex3.csv")
+
+# Remove extra spaces from column names (important fix)
+data.columns = data.columns.str.strip()
+
+# Select columns
+x = data["R&D Spend"].values
+y = data["Profit"].values
+
+# -----------------------
+# Feature Scaling
+# -----------------------
+x = (x - np.mean(x)) / np.std(x)
+
+# -----------------------
+# Parameters
+# -----------------------
+w = 0.0
+b = 0.0
+alpha = 0.01
+epochs = 100
+n = len(x)
+
+losses = []
+
+# -----------------------
+# Gradient Descent
+# -----------------------
+for i in range(epochs):
+
+    # Prediction
+    y_hat = w * x + b
+
+    # Loss (MSE)
+    loss = np.mean((y_hat - y) ** 2)
+    losses.append(loss)
+
+    # Gradients
+    dw = (2/n) * np.sum((y_hat - y) * x)
+    db = (2/n) * np.sum(y_hat - y)
+
+    # Update parameters
+    w = w - alpha * dw
+    b = b - alpha * db
+
+# -----------------------
+# Plots
+# -----------------------
+plt.figure(figsize=(12,5))
+
+# Loss graph
+plt.subplot(1,2,1)
+plt.plot(losses)
+plt.xlabel("Iterations")
+plt.ylabel("Loss (MSE)")
+plt.title("Loss vs Iterations")
+
+# Regression graph
+plt.subplot(1,2,2)
+plt.scatter(x, y, label="Data")
+plt.plot(x, w*x + b, label="Regression Line")
+plt.xlabel("R&D Spend (scaled)")
+plt.ylabel("Profit")
+plt.title("Linear Regression using Gradient Descent")
+plt.legend()
+
+plt.tight_layout()
+plt.show()
+
+# -----------------------
+# Final Parameters
+# -----------------------
+print("Final Weight (w):", w)
+print("Final Bias (b):", b)
+```
 ## Output:
-![linear regression using gradient descent](sam.png)
-
+  https://imgur.com/abcd123  
 
 ## Result:
 Thus the program to implement the linear regression using gradient descent is written and verified using python programming.
